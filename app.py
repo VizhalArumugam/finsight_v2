@@ -38,7 +38,11 @@ def create_app() -> Flask:
     
     db.init_app(app)
     with app.app_context():
-        db.create_all()
+        try:
+            db.create_all()
+            print("Successfully connected to the database!")
+        except Exception as e:
+            print(f"CRITICAL DB ERROR: {e}")
 
     app.register_blueprint(gst_bp)
     app.register_blueprint(price_bp)
