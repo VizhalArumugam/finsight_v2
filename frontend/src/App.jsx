@@ -46,7 +46,7 @@ const TABS = [
   { id: 'gst',       label: 'GST Advisor'      },
   { id: 'inventory', label: 'Inventory ROP'    },
   { id: 'abc',       label: 'ABC Classifier'   },
-  { id: 'settings',  label: '⚙️ Profile'      },
+  { id: 'settings',  label: 'Profile'      },
 ];
 
 export default function App() {
