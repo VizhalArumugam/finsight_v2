@@ -5,6 +5,7 @@ import PriceValidator from './components/PriceValidator';
 import LeakageDetector from './components/LeakageDetector';
 import InventoryROP from './components/InventoryROP';
 import ABCClassifier from './components/ABCClassifier';
+import ProfileSettings from './components/ProfileSettings';
 
 const API = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
@@ -45,6 +46,7 @@ const TABS = [
   { id: 'gst',       label: 'GST Advisor'      },
   { id: 'inventory', label: 'Inventory ROP'    },
   { id: 'abc',       label: 'ABC Classifier'   },
+  { id: 'settings',  label: '⚙️ Profile'      },
 ];
 
 export default function App() {
@@ -256,6 +258,7 @@ export default function App() {
         {activeTab === 'gst'       && <GSTCalculator      token={token} />}
         {activeTab === 'inventory' && <InventoryROP       businessType={user.business_type} token={token} />}
         {activeTab === 'abc'       && <ABCClassifier      businessType={user.business_type} token={token} />}
+        {activeTab === 'settings'  && <ProfileSettings    user={user} token={token} onUpdateUser={setUser} />}
       </main>
 
       <footer style={{ textAlign: 'center', padding: '2.5rem 0 1rem', color: 'var(--text-muted)', fontSize: '0.8rem' }}>
