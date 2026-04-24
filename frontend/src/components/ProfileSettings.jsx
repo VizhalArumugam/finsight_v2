@@ -56,7 +56,7 @@ export default function ProfileSettings({ user, token, onUpdateUser }) {
 
   return (
     <div className="card">
-      <h2>⚙️ Manage Business Profile</h2>
+      <h2>Manage Business Profile</h2>
       <p style={{ color: 'var(--text-muted)', marginBottom: '1.5rem' }}>
         Update your business details. These settings allow the AI to give you hyper-personalized market, tax, and inventory advice.
       </p>
