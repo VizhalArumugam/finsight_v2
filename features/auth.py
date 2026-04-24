@@ -26,6 +26,11 @@ class User(db.Model):
     owner_name    = db.Column(db.String(100), nullable=False)
     shop_name     = db.Column(db.String(150), nullable=False, default="My Store")
     business_type = db.Column(db.String(50),  nullable=False, default="Grocery")
+    
+    # Extra profile fields restored from the old model
+    location       = db.Column(db.String(100))
+    inventory_type = db.Column(db.String(50), default="durable")
+    lead_time_days = db.Column(db.Integer, default=7)
 
     def set_password(self, plain_password: str):
         self.password_hash = bcrypt.hashpw(
@@ -40,11 +45,14 @@ class User(db.Model):
 
     def to_dict(self):
         return {
-            "id":            self.id,
-            "email":         self.email,
-            "owner_name":    self.owner_name,
-            "shop_name":     self.shop_name,
-            "business_type": self.business_type,
+            "id":             self.id,
+            "email":          self.email,
+            "owner_name":     self.owner_name,
+            "shop_name":      self.shop_name,
+            "business_type":  self.business_type,
+            "location":       self.location,
+            "inventory_type": self.inventory_type,
+            "lead_time_days": self.lead_time_days,
         }
 
 

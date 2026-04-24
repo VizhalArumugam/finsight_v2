@@ -33,9 +33,13 @@ def save_profile():
         return jsonify({"error": "User not found"}), 404
 
     body = request.get_json(force=True)
-    user.owner_name    = body.get("owner_name",    user.owner_name)
-    user.shop_name     = body.get("shop_name",     user.shop_name)
-    user.business_type = body.get("business_type", user.business_type)
+    user.owner_name     = body.get("owner_name",     user.owner_name)
+    user.shop_name      = body.get("shop_name",      user.shop_name)
+    user.business_type  = body.get("business_type",  user.business_type)
+    user.location       = body.get("location",       user.location)
+    user.inventory_type = body.get("inventory_type", user.inventory_type)
+    user.lead_time_days = body.get("lead_time_days", user.lead_time_days)
+    
     db.session.commit()
     return jsonify({"status": "success", "message": "Profile saved"}), 200
 
@@ -50,9 +54,12 @@ def get_profile():
     return jsonify({
         "status": "success",
         "data": {
-            "owner_name":    user.owner_name,
-            "shop_name":     user.shop_name,
-            "business_type": user.business_type,
+            "owner_name":     user.owner_name,
+            "shop_name":      user.shop_name,
+            "business_type":  user.business_type,
+            "location":       user.location,
+            "inventory_type": user.inventory_type,
+            "lead_time_days": user.lead_time_days,
         }
     }), 200
 
