@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function GSTCalculator() {
+export default function GSTCalculator({ token }) {
   const [description, setDescription] = useState('');
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
@@ -15,7 +15,7 @@ export default function GSTCalculator() {
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/gst/calculate`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ description })
       });
       const data = await res.json();

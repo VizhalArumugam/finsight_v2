@@ -1,64 +1,61 @@
 """
 FinSight v2 — features/user_profile.py
-=======================================
+========================================
 Blueprint: /api/profile
 Module 1 — User Profile & Onboarding
 
-Saves user business data to a SQLite database.
+Profile is now stored inside the User model.
+All routes require a valid JWT token.
 """
 
 from flask import Blueprint, request, jsonify
+from flask_jwt_extended import jwt_required, get_jwt_identity
 from config.database import db
 
 profile_bp = Blueprint("profile", __name__, url_prefix="/api/profile")
 
-class BusinessProfile(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    owner_name = db.Column(db.String(100), nullable=False)
-    shop_name = db.Column(db.String(150), nullable=False)
-    location = db.Column(db.String(100))
-    business_type = db.Column(db.String(50), nullable=False)
-    inventory_type = db.Column(db.String(50))
-    lead_time_days = db.Column(db.Integer, default=7)
+
+def _get_user():
+    """Helper: return the User object from JWT or None."""
+    try:
+        from features.auth import User
+        user_id = int(get_jwt_identity())
+        return User.query.get(user_id)
+    except Exception:
+        return None
+
 
 @profile_bp.route("/save", methods=["POST"])
+@jwt_required()
 def save_profile():
+    user = _get_user()
+    if not user:
+        return jsonify({"error": "User not found"}), 404
+
     body = request.get_json(force=True)
-    if not body.get("owner_name") or not body.get("business_type"):
-        return jsonify({"error": "owner_name and business_type are required"}), 400
-
-    profile = BusinessProfile.query.get(1)
-    if not profile:
-        profile = BusinessProfile(id=1)
-        db.session.add(profile)
-
-    profile.owner_name = body.get("owner_name")
-    profile.shop_name = body.get("shop_name", "My Store")
-    profile.location = body.get("location", "")
-    profile.business_type = body.get("business_type")
-    profile.inventory_type = body.get("inventory_type", "durable")
-    profile.lead_time_days = body.get("lead_time_days", 7)
-
+    user.owner_name    = body.get("owner_name",    user.owner_name)
+    user.shop_name     = body.get("shop_name",     user.shop_name)
+    user.business_type = body.get("business_type", user.business_type)
     db.session.commit()
     return jsonify({"status": "success", "message": "Profile saved"}), 200
 
+
 @profile_bp.route("/get", methods=["GET"])
+@jwt_required()
 def get_profile():
-    profile = BusinessProfile.query.get(1)
-    if not profile:
+    user = _get_user()
+    if not user:
         return jsonify({"status": "not_found"}), 404
-        
+
     return jsonify({
         "status": "success",
         "data": {
-            "owner_name": profile.owner_name,
-            "shop_name": profile.shop_name,
-            "location": profile.location,
-            "business_type": profile.business_type,
-            "inventory_type": profile.inventory_type,
-            "lead_time_days": profile.lead_time_days
+            "owner_name":    user.owner_name,
+            "shop_name":     user.shop_name,
+            "business_type": user.business_type,
         }
     }), 200
+
 
 @profile_bp.route("/health", methods=["GET"])
 def health():

@@ -12,11 +12,13 @@ Run:
 import os
 from flask import Flask, jsonify
 from flask_cors import CORS
+from flask_jwt_extended import JWTManager
 from dotenv import load_dotenv
 
 load_dotenv()
 
 from config.database import db
+from features.auth import auth_bp
 from features.gst_calculator import gst_bp
 from features.price_validator import price_bp
 from features.leakage_detector import audit_bp
@@ -35,6 +37,9 @@ def create_app() -> Flask:
         database_url = database_url.replace("postgres://", "postgresql://", 1)
     app.config["SQLALCHEMY_DATABASE_URI"] = database_url
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config["JWT_SECRET_KEY"] = os.environ.get("JWT_SECRET_KEY", "dev-secret-change-in-production")
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = 60 * 60 * 24 * 7  # 7 days
+    JWTManager(app)
     
     db.init_app(app)
     with app.app_context():
@@ -44,6 +49,7 @@ def create_app() -> Flask:
         except Exception as e:
             print(f"CRITICAL DB ERROR: {e}")
 
+    app.register_blueprint(auth_bp)
     app.register_blueprint(gst_bp)
     app.register_blueprint(price_bp)
     app.register_blueprint(audit_bp)

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function PriceValidator({ businessType }) {
+export default function PriceValidator({ businessType, token }) {
   const getProductsForType = (type) => {
     const map = {
       'Dairy': ['Toned Milk 500ml', 'Full Cream Milk 500ml', 'Curd 400g', 'Ghee 500ml', 'Butter 100g', 'Paneer 200g'],
@@ -29,7 +29,7 @@ export default function PriceValidator({ businessType }) {
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/price/validate`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ product, category: businessType || 'General', your_price: Number(price) })
       });
       const data = await res.json();

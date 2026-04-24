@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import Papa from 'papaparse';
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip as RechartsTooltip, Legend, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts';
 
-export default function ABCClassifier({ businessType }) {
+export default function ABCClassifier({ businessType, token }) {
   const fileInputRef = useRef(null);
   const COLORS = ['#10b981', '#f59e0b', '#ef4444']; // Success green, warning yellow, danger red
 
@@ -66,7 +66,7 @@ export default function ABCClassifier({ businessType }) {
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/abc/classify`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ products })
       });
       const data = await res.json();

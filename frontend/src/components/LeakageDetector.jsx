@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-export default function LeakageDetector({ businessType }) {
+export default function LeakageDetector({ businessType, token }) {
   const getProductsForType = (type) => {
     const map = {
       'Dairy': ['Toned Milk 500ml', 'Full Cream Milk 500ml', 'Curd 400g', 'Paneer 200g'],
@@ -41,7 +41,7 @@ export default function LeakageDetector({ businessType }) {
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/audit/run`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ sales, deposits })
       });
       const data = await res.json();

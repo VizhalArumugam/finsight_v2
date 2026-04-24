@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import Papa from 'papaparse';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip as RechartsTooltip, Legend, Cell } from 'recharts';
 
-export default function InventoryROP({ businessType }) {
+export default function InventoryROP({ businessType, token }) {
   const fileInputRef = useRef(null);
   
   const [product, setProduct] = useState('');
@@ -61,7 +61,7 @@ export default function InventoryROP({ businessType }) {
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/inventory/rop`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ 
           product, 
           avg_daily_sales: avgDailySales, 
@@ -88,7 +88,7 @@ export default function InventoryROP({ businessType }) {
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/api/inventory/rop`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ products: bulkProducts })
       });
       const data = await res.json();
