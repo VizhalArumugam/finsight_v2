@@ -1,0 +1,11 @@
+name,avg_daily_sales,lead_time_days,safety_stock,current_stock
+Premium Coffee Beans,10,7,20,15
+Green Tea Bags,5,3,10,30
+Almond Milk 1L,15,2,30,10
+Granola Bar Box,8,5,15,40
+Organic Honey 500g,2,10,5,8
+Whole Wheat Bread,20,1,10,5
+Peanut Butter 1kg,4,7,12,35
+Orange Juice 1L,12,3,25,20
+Dark Chocolate Bar,6,5,15,50
+Olive Oil 500ml,3,14,10,25

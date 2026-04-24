@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: finsight-backend
+    env: python
+    region: oregon
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    envVars:
+      - key: PORT
+        value: 5000
+      - key: FLASK_DEBUG
+        value: false
+      # Note: Set DATABASE_URL, GROQ_API_KEY, GEMINI_API_KEY manually in the Render Dashboard

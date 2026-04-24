@@ -1,0 +1,34 @@
+{
+  "product": "Tomato 1kg",
+  "category": "Grocery",
+  "your_price": 100,
+  "market": {
+    "low": 18.75,
+    "avg": 196.25,
+    "high": 250.0,
+    "unit": "per unit",
+    "source": "Live Web Search"
+  },
+  "live_links": [
+    {
+      "store": "JioMart",
+      "url": "https://www.jiomart.com/search/Tomato+1kg"
+    },
+    {
+      "store": "BigBasket",
+      "url": "https://www.bigbasket.com/ps/?q=Tomato+1kg"
+    },
+    {
+      "store": "Amazon IN",
+      "url": "https://www.amazon.in/s?k=Tomato+1kg"
+    }
+  ],
+  "diff_percent": -45.625,
+  "diff_absolute": 76.25,
+  "verdict": "underpriced",
+  "price_position": "The owner's price of \u20b9100 is significantly lower than the market average of \u20b9196.25.",
+  "suggestion": "Consider revising the price to \u20b9196.25 to remain competitive in the market.",
+  "competitive_context": "The market retail reality in India for this item is that prices vary greatly, but \u20b9196.25 seems to be a more realistic average.",
+  "selling_less_where": "Grocery competitors like Big Bazaar, Reliance Fresh, and Spencer's Retail are selling this item for \u20b9150-\u20b9200.",
+  "data_confidence": "medium"
+}

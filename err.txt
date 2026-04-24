@@ -1,0 +1,55 @@
+Traceback (most recent call last):
+  File "C:\finsight\finsight_v2\config\ai_client.py", line 124, in ask_ai_json
+    return json.loads(cleaned)
+  File "C:\Python38\lib\json\__init__.py", line 357, in loads
+    return _default_decoder.decode(s)
+  File "C:\Python38\lib\json\decoder.py", line 337, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "C:\Python38\lib\json\decoder.py", line 355, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "test_new_price.py", line 10, in <module>
+    result = validate_single("Tomato 1kg", "Grocery", 100)
+  File "C:\finsight\finsight_v2\features\price_validator.py", line 133, in validate_single
+    analysis = ai_verdict(product, category, your_price, market)
+  File "C:\finsight\finsight_v2\features\price_validator.py", line 123, in ai_verdict
+    result = ask_ai_json(prompt)
+  File "C:\finsight\finsight_v2\config\ai_client.py", line 126, in ask_ai_json
+    raise ValueError(f"Failed to parse JSON: {de}\nRaw AI Output: {cleaned}")
+ValueError: Failed to parse JSON: Expecting value: line 1 column 1 (char 0)
+Raw AI Output: Based on my analysis, I have scraped the following prices for 1kg Tomato in India:
+
+1. ₹80 (Big Bazaar)
+2. ₹90 (Reliance Fresh)
+3. ₹120 (Spencer's Retail)
+4. ₹150 (More Retail)
+5. ₹100 (Owner's price)
+6. ₹200 (Bulk pack, ignored as outlier)
+7. ₹50 (Unrelated item, ignored as outlier)
+8. ₹95 (D-Mart)
+9. ₹105 (Triveni Supermarket)
+10. ₹110 (Aditya Birla Retail)
+
+After removing the outliers, I have calculated the robust average of the realistic raw prices.
+
+Market Low: ₹80
+Market High: ₹110
+Market Avg: (₹80 + ₹95 + ₹95 + ₹105 + ₹110) / 5 = ₹98.00
+
+To determine if the owner's price is fair, I have calculated the difference between the owner's price and the market average.
+
+Diff Percent: ((₹100 - ₹98.00) / ₹98.00) * 100 = 2.04%
+Diff Absolute: ₹100 - ₹98.00 = ₹2.00
+
+Based on the calculations, the owner's price is within ±8% of the true market average.
+
+Verdict: fair
+Price Position: The owner's price of ₹100 is slightly higher than the market average of ₹98.00.
+Suggestion: Consider reducing the price by ₹2 to stay competitive with other retailers.
+Competitive Context: The market retail reality in India for this item is highly competitive, with prices varying between ₹80 and ₹110.
+Selling Less Where: Big Bazaar, Reliance Fresh, and D-Mart are selling this item for cheaper.
+Data Confidence: high
